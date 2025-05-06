@@ -1,58 +1,27 @@
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 
 namespace Customers.Api.Tests.Integration
 {
-    public class CustomerControllerTests : IAsyncLifetime
+    public class CustomerControllerTests : IClassFixture<WebApplicationFactory<IApiMarker>>
     {
-        private readonly HttpClient _httpClient = new()
+        private readonly HttpClient _httpClient;
+        public CustomerControllerTests(WebApplicationFactory<IApiMarker> appFactory)
         {
-            BaseAddress = new Uri("https://localhost:5001")
-        };
-        public CustomerControllerTests()
-        {
-            //setup code
-        }
-        public Task InitializeAsync()
-        {
-            return Task.CompletedTask;
-        }
-        public async Task DisposeAsync()
-        {
-            await Task.Delay(1);
+            _httpClient = appFactory.CreateClient();
         }
 
         [Fact]
         public async Task Get_ReturnNorFound_WhenCustomerDoesNotExist()
         {
-            //Arrange
-
             //Act
             var response = await _httpClient.GetAsync($"/customers/{Guid.NewGuid()}");
 
             //Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Theory]
-        [MemberData(nameof(Data))]
-        public async Task Get_ReturnNorFound_WhenCustomerDoesNotExist2(string guidAsText)
-        {
-            //Arrange
-
-            //Act
-            var response = await _httpClient.GetAsync($"/customers/{Guid.Parse(guidAsText)}");
-
-            //Assert
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        }
-
-        public static IEnumerable<object[]> Data { get; } = new[]
-        {
-            new[]{ "fb9707a3-545d-4458-807a-cfebe4385882" },
-            new[]{ "fb9707a3-545d-4458-807a-cfebe4385883" },
-            new[]{ "fb9707a3-545d-4458-807a-cfebe4385884" }
-
-        };
 
     }
 }
