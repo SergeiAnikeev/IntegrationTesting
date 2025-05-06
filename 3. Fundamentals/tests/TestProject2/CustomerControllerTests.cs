@@ -33,18 +33,26 @@ namespace Customers.Api.Tests.Integration
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        [Fact]
-        public async Task Get_ReturnNorFound_WhenCustomerDoesNotExist2()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public async Task Get_ReturnNorFound_WhenCustomerDoesNotExist2(string guidAsText)
         {
             //Arrange
 
             //Act
-            var response = await _httpClient.GetAsync($"/customers/{Guid.NewGuid()}");
+            var response = await _httpClient.GetAsync($"/customers/{Guid.Parse(guidAsText)}");
 
             //Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
 
+        public static IEnumerable<object[]> Data { get; } = new[]
+        {
+            new[]{ "fb9707a3-545d-4458-807a-cfebe4385882" },
+            new[]{ "fb9707a3-545d-4458-807a-cfebe4385883" },
+            new[]{ "fb9707a3-545d-4458-807a-cfebe4385884" }
+
+        };
 
     }
 }
