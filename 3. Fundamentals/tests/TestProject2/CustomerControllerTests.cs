@@ -1,6 +1,8 @@
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
+using System.Net.Http.Json;
 
 namespace Customers.Api.Tests.Integration
 {
@@ -20,6 +22,11 @@ namespace Customers.Api.Tests.Integration
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            //var text = await response.Content.ReadAsStringAsync();
+            var problem = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+            problem!.Title.Should().Be("Not Found");
+            problem.Status.Should().Be(404);
+
         }
 
 
