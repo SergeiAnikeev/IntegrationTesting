@@ -6,5 +6,5 @@ public class UpdateCustomerRequest
 {
     [FromRoute(Name = "id")] public Guid Id { get; init; }
 
-    [FromBody] public CustomerResponse Customer { get; set; } = default!;
+    [FromBody] public CustomerRequest Customer { get; set; } = default!;
 }

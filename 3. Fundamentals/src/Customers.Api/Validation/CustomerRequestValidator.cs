@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Customers.Api.Validation;
 
-public class CustomerRequestValidator : AbstractValidator<CustomerResponse>
+public class CustomerRequestValidator : AbstractValidator<CustomerRequest>
 {
     public CustomerRequestValidator()
     {

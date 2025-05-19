@@ -1,4 +1,5 @@
 using Bogus;
+using Customers.Api.Contracts.Requests;
 using Customers.Api.Contracts.Responses;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace Customers.Api.Tests.Integration
     public class CustomerControllerTests : IClassFixture<WebApplicationFactory<IApiMarker>>, IAsyncLifetime
     {
         private readonly HttpClient _httpClient;
-        private readonly Faker<CustomerResponse> _customerGenerator = new Faker<CustomerResponse>()
+        private readonly Faker<CustomerRequest> _customerGenerator = new Faker<CustomerRequest>()
             .RuleFor(x => x.FullName, faker => faker.Person.FullName)
             .RuleFor(x => x.Email, faker => faker.Person.Email)
             .RuleFor(x => x.GitHubUsername, "sergeianikeev")
@@ -62,7 +63,7 @@ namespace Customers.Api.Tests.Integration
         {
             foreach(var createdId in _createdIds) 
             {
-                await _httpClient.DeleteAsync($"/customer/{createdId}");
+                await _httpClient.DeleteAsync($"/customers/{createdId}");
             }
         }
     }

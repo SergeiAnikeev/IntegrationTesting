@@ -6,7 +6,7 @@ namespace Customers.Api.Mapping;
 
 public static class ApiContractToDomainMapper
 {
-    public static Customer ToCustomer(this CustomerResponse request)
+    public static Customer ToCustomer(this CustomerRequest request)
     {
         return new Customer
         {
