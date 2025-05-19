@@ -1,6 +1,6 @@
 ﻿namespace Customers.Api.Contracts.Requests;
 
-public class CustomerRequest
+public class CustomerResponse
 {
     public string GitHubUsername { get; init; } = default!;
 

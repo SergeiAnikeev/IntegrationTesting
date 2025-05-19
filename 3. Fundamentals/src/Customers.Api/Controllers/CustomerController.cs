@@ -17,7 +17,7 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPost("customers")]
-    public async Task<IActionResult> Create([FromBody] CustomerRequest request)
+    public async Task<IActionResult> Create([FromBody] CustomerResponse request)
     {
         var customer = request.ToCustomer();
 
